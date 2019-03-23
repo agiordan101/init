@@ -1,0 +1,2 @@
+ifconfig en0 | grep "broadcast" | awk '{print $NF}'
+ping -t1 $(ifconfig en0 | grep "broadcast" | awk '{print $NF}') | awk '{print $4}' | grep 10. | rev | cut -c2- | rev
