@@ -1,16 +1,14 @@
-
-FIND_INPUT=(ls | /bin/grep $1)
+FIND_INPUT="$(ls | grep $1)"
 if [$FIND_INPUT == ""]
 then
 	echo "Folder $1 doesn't exist"
 	exit 1
 fi
 
-touch updateScript.diff
 cd $1 && git diff > ../updateScript.diff && cd .. 
 DIFF=(cat updateScript.diff)
 
-if (DIFF == "")
+if ($DIFF == "")
 then
 	echo "Folder $1 is already up to date"
 	exit 1
