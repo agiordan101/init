@@ -1,1 +1,1 @@
-echo "/etc/resolv.conf"
+L'adresse ip du serveur DNS que j'utilise se trouve dans </etc/resolv.conf>

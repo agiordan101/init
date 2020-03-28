@@ -1,0 +1,2 @@
+Session ssh : ssh login@localhost
+Graphique : Si la vm est creer en session graphique l'utilisateur se connectera en session graphique
