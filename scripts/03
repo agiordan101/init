@@ -1,12 +1,27 @@
 #!/bin/bash
 
+if [ $# != 1 ]
+then
+	echo "usage: ./03 <folder>"
+	echo "Folder must be a git repository"
+	exit 1
+fi
+
 if [ ! -d "$1" ]
 then
 	echo "Folder $1 doesn't exist"
 	exit 1
 fi
+cd $1
+if [ ! -d ".git" ]
+then
+	echo "Folder $1 must be a git repository"
+	exit 1
+fi
 
-cd $1 && git diff > ../updateScript.diff && cd .. 
+git diff > ../updateScript.diff
+cd .. 
+
 DIFF="$(cat updateScript.diff)"
 
 if [ "$DIFF" == "" ]
@@ -18,30 +33,32 @@ else
 	echo "Diff were written to updateScript.diff"
 fi
 
-echo "Actions :"
-echo "1 -> Pull"
-echo "2 -> Checkout"
-echo "3 -> Overwrite"
-echo "Your answer : "
 
-read input
-if [ "$input" == "1" ]
-then
-	cd $1 && git pull && cd ..
-elif [ $input == "2" ]
-then
-	cd $1 && git checkout . && cd ..
-	echo "Git checkout done."
-elif [ $input == "3" ]
-then
-	mv $1 $1_save
-	echo "Save of $1 folder has been created"
-	mkdir $1
-	cp -r $1_save/\.git $1/\.git
-	cd $1 && git checkout . && cd ..
-	echo "Overwritting is finish."
-fi
-
-
-
-
+input="4"
+while [ "$input" != "1" ] && [ "$input" != "2" ] && [ "$input" != "3" ]
+do
+	echo "Actions :"
+	echo "1 -> Pull"
+	echo "2 -> Checkout"
+	echo "3 -> Overwrite"
+	echo "Your answer : "
+	read input
+	if [ "$input" == "1" ]
+	then
+		cd $1 && git pull && cd ..
+	elif [ $input == "2" ]
+	then
+		cd $1 && git checkout . && cd ..
+		echo "Git checkout done."
+	elif [ $input == "3" ]
+	then
+		mv $1 $1_save
+		echo "Save of $1 folder has been created"
+		mkdir $1
+		cp -r $1_save/\.git $1/\.git
+		cd $1 && git checkout . && cd ..
+		echo "Overwritting is finish."
+	else
+		echo "Wrong answer"
+	fi
+done
