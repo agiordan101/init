@@ -1,1 +1,2 @@
-//sudo /etc/.../ssh restart
+Sous linux : reboot
+ssh classique : sudo <service ssh> restart
